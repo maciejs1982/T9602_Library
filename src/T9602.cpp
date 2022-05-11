@@ -44,7 +44,7 @@ void T9602::updateMeasurements(){
 		data[i] = Wire.read();
 	}
 
-	Temp = (float)((unsigned((data[2] * 64)) + unsigned((data[3] >> 2 ))) / 16384.0) * 165.0 - 40.0;  //Convert Temp
+	Temp = (float)((unsigned((data[0] * 64)) + unsigned((data[1] >> 2 ))) / 16384.0) * 165.0 - 40.0;  //Convert Temp
 	
 }
 
@@ -65,6 +65,9 @@ String T9602::getHeader()
 
 String T9602::getString(bool takeNewReadings)
 {
+	if (takeNewReadings) {
+		updateMeasurements();
+	}
 	return String(RH) + "," + String(Temp) + ",";
 }
 
